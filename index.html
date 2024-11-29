@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TansformObj2TsInterface</title>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <div class="app">
+      <div class="container">
+        <div class="left">
+          <div class="left-top">
+            <input
+              class="left-top-input"
+              placeholder="TS interface name..."
+              type="text"
+            />
+            <div class="left-top-group">
+              <div>
+                <input type="checkbox" id="optional" />
+                <label for="optional">全部可选</label>
+              </div>
+              <div>
+                <input type="checkbox" id="deep" />
+                <label for="deep">深度转换</label>
+              </div>
+            </div>
+          </div>
+          <div class="left-textarea">
+            <textarea
+              class="textarea"
+              placeholder="The object to be converted..."
+              name=""
+              id=""
+            ></textarea>
+          </div>
+        </div>
+        <div class="right">
+          <pre class="pre"></pre>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script src="./util.js"></script>
+  <script>
+    const optionalEl = document.querySelector("#optional");
+    const deepEl = document.querySelector("#deep");
+    const nameInput = document.querySelector(".left-top-input");
+    const textareaEl = document.querySelector(".textarea");
+    const preEl = document.querySelector(".pre");
+    let objectValue;
+    let interfaceName = "";
+    let optional = false;
+    let deep = false;
+    preEl.innerHTML = `interface IPeople {
+        "name": string;
+        "age": number;
+        "isMan": boolean;
+    }
+        `;
+
+    optionalEl.addEventListener("change", (event) => {
+      const value = event.target.checked;
+      optional = value;
+      if (!Array.isArray(objectValue) && typeof objectValue === "object") {
+        const result = generateInterface(objectValue, interfaceName, {
+          optional,
+          deep,
+          isRoot: true,
+        });
+
+        preEl.textContent = result;
+      }
+    });
+
+    deepEl.addEventListener("change", (event) => {
+      const value = event.target.checked;
+      deep = value;
+      if (!Array.isArray(objectValue) && typeof objectValue === "object") {
+        const result = generateInterface(objectValue, interfaceName, {
+          optional,
+          deep,
+          isRoot: true,
+        });
+
+        preEl.textContent = result;
+      }
+    });
+
+    nameInput.addEventListener("input", (event) => {
+      const value = event.target.value;
+      interfaceName = value;
+      if (!Array.isArray(objectValue) && typeof objectValue === "object") {
+        const result = generateInterface(objectValue, value, {
+          optional,
+          deep,
+          isRoot: true,
+        });
+
+        preEl.textContent = result;
+      }
+    });
+
+    textareaEl.addEventListener("input", (event) => {
+      const value = event.target.value;
+      try {
+        const tempObj = JSON.parse(value);
+        if (!Array.isArray(value)) {
+          objectValue = tempObj;
+          const result = generateInterface(objectValue, interfaceName, {
+            optional,
+            deep,
+            isRoot: true,
+          });
+          preEl.textContent = result;
+        }
+      } catch (error) {
+        console.log("error");
+      }
+    });
+  </script>
+</html>

@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ESNext", // 使用 ESNext 目标，支持最新的 JavaScript 特性
+    "module": "ESNext", // 设置模块为 ESNext 以支持 `import` 和 `export`
+    "moduleResolution": "node", // 使用 Node.js 的模块解析方式
+    "esModuleInterop": true, // 允许与 CommonJS 模块互操作
+    "strict": true, // 启用严格模式，建议保持开启
+    "skipLibCheck": true, // 跳过库文件检查（提高编译速度）
+    "outDir": "./dist", // 编译后的文件输出目录
+    "resolveJsonModule": true // 允许导入 JSON 文件
+  },
+  "include": [
+    "src/**/*.ts" // 包含所有的 TypeScript 源文件
+, "src/index.ts", "src/util.ts"  ],
+  "exclude": [
+    "node_modules" // 排除 node_modules
+  ]
+}
